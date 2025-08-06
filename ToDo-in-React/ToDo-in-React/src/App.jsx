@@ -1,56 +1,26 @@
-import React, { useEffect, useState } from "react";
-import List from "./components/List";
+import React, { useState } from "react";
+import List from "./components/list";
 
 function App() {
   const [todo, settodo] = useState([]);
-  const [loaded, setLoaded] = useState(false);
-
 
   const Add = (e) => {
     let finaltodo = e.target.tasks.value;
+
     if (todo.includes(finaltodo)) {
       alert("Task already exists");
     } else {
       let final = [...todo, finaltodo];
       settodo(final);
+
       e.target.reset();
     }
 
     e.preventDefault();
   };
   let list = todo.map((value, index) => {
-    return (
-      <List
-        value={value}
-        index={index}
-        key={index}
-        todo={todo}
-        settodo={settodo}
-      />
-    );
+    return <List value={value} index={index} key={index} todo={todo} settodo={settodo} />;
   });
-
-  useEffect(() => {
-    try{
-      let todo = localStorage.getItem("task");
-      if (todo) settodo(JSON.parse(todo));
-    }
-    catch(er){
-console.log("Error",er);
-    }
-    finally{
-      setLoaded(true)
-    }
-  }, []);
-
-  useEffect(() => {
-
-    if(loaded){
-
-      localStorage.setItem("task", JSON.stringify(todo));
-    }
-
-  }, [todo,loaded]);
 
   return (
     <>
@@ -64,12 +34,10 @@ console.log("Error",er);
             type="text"
             name="tasks"
             placeholder="Enter the task"
-            className=" ml-6  task border  bg-emerald-100 outline-none border-none rounded-2xl placeholder:text-black w-230 h-13 p-3 "
+            className=" ml-6  task border bg-emerald-100 outline-none border-none rounded-2xl placeholder:text-black w-230 h-13 p-3 "
           />
 
-          <button className="w-45 border rounded-2xl bg-blue-950 cursor-pointer  text-white">
-            Save{" "}
-          </button>
+          <button className="w-45 border rounded-2xl bg-blue-950 text-white">Save </button>
         </form>
 
         <div className="outerdiv text-center">

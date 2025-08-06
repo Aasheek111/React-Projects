@@ -15,6 +15,7 @@ function List({ value, index, todo, settodo }) {
   const Up = (e) => {
     e.stopPropagation();
     let newArr = [...todo];
+
     if (index >= 1) {
       [newArr[index], newArr[index - 1]] = [newArr[index - 1], newArr[index]];
       settodo(newArr);
@@ -22,11 +23,13 @@ function List({ value, index, todo, settodo }) {
   };
 
   const Down = (e) => {
+
     e.stopPropagation();
     let newArr = [...todo];
 
-    if (index < todo.length - 1) {
-      [newArr[index], newArr[index + 1]] = [newArr[index + 1], newArr[index]];
+    if (index< todo.length-1) {
+
+      [newArr[index], newArr[index+1]] = [newArr[index +1], newArr[index]];
       settodo(newArr);
     }
   };
@@ -40,13 +43,13 @@ function List({ value, index, todo, settodo }) {
       <span className="absolute left-2 ">{index + 1}. </span>
       {value}
       <span
-        className="absolute right-20 top-0  p-3 cursor-pointer bg-green-500 rounded-2xl"
+        className="absolute right-20 top-0  p-3 bg-green-500 rounded-2xl"
         onClick={Up}
       >
         &uarr;
       </span>
       <span
-        className="absolute right-32 top-0 p-3 cursor-pointer bg-amber-600 rounded-2xl"
+        className="absolute right-32 top-0 p-3 bg-amber-600 rounded-2xl"
         onClick={Down}
       >
         &darr;
