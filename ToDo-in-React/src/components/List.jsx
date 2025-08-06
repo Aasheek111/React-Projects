@@ -3,7 +3,8 @@ import React, { useState } from "react";
 function List({ value, index, todo, settodo }) {
   const [done, todone] = useState(false);
 
-  const Delete = () => {
+  const Delete = (e) => {
+    e.stopPropagation()
     let newdat = todo.filter((v, i) => i != index); //or if we dont want to use the implicit function then we can use return too
     settodo(newdat);
   };

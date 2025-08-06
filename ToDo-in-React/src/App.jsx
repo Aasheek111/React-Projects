@@ -54,7 +54,7 @@ console.log("Error",er);
 
   return (
     <>
-      <div className=" rounded-2xl h-auto m-auto w-300 bg-blue-200 mt-15">
+      <div className=" rounded-2xl h-auto m-auto w-300 bg-blue-300 mt-15">
         <h1 className="text-center text-4xl text-red-900 font-bold p-3">
           TODO LIST
         </h1>
