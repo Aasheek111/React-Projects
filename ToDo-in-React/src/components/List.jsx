@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+
 
 function List({ value, index, todo, settodo }) {
 
-  const [done, todone] = useState(false);
 
   const Delete = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     let newdat = todo.filter((v, i) => i != index); //or if we dont want to use the implicit function then we can use return too
     settodo(newdat);
   };
 
-  const Done = () => {
+  const Done = () => {//for toggling the done 
+    let temparr=[...todo]
+    temparr[index].done=!temparr[index].done;
 
-    todone(!done);
+    settodo(temparr)
+    localStorage.setItem("task", JSON.stringify(temparr));
+
   };
 
-  const Up = (e) => {
+  const Up = (e) => {//logic for up
     e.stopPropagation();
     let newArr = [...todo];
     if (index >= 1) {
@@ -24,19 +27,20 @@ function List({ value, index, todo, settodo }) {
     }
   };
 
-  const Down = (e) => {
+  const Down = (e) => {//logic for task down
     e.stopPropagation();
     let newArr = [...todo];
-
+    
     if (index < todo.length - 1) {
       [newArr[index], newArr[index + 1]] = [newArr[index + 1], newArr[index]];
       settodo(newArr);
     }
   };
+
   return (
     <li
       className={`bg-amber-100 relative w-280 h-15 mb-3 p-3 cursor-pointer rounded-xl ${
-        done ? "line-through bg-green-100" : ""
+        todo[index].done ? "line-through bg-green-100" : ""
       } `}
       onClick={Done}
     >

@@ -7,10 +7,20 @@ function App() {
 
   const Add = (e) => {
     let finaltodo = e.target.tasks.value;
-    if (todo.includes(finaltodo)) {
-      alert("Task already exists");
+    let taskexist=todo.some((t)=>{
+      if(t.task.includes(finaltodo)){
+        return true;
+      }
+
+    })
+
+    if(!finaltodo){
+      alert("Kuch to daldey")
+    }
+    else if (taskexist) {
+      alert("Pailai xa ta tyi herr na");
     } else {
-      let final = [...todo, finaltodo]; //we also can do let final=todo.concat(finaltodo) ... is a spread operator
+      let final = [...todo, {task:finaltodo, done: false }]
       settodo(final);
       e.target.reset();
     }
@@ -20,7 +30,7 @@ function App() {
   let list = todo.map((value, index) => {
     return (
       <List
-        value={value}
+        value={value.task}
         index={index}
         key={index}
         todo={todo}
@@ -73,7 +83,7 @@ function App() {
             />
 
             <button className="w-45 border rounded-2xl bg-blue-950 cursor-pointer border-none text-white">
-              Save{" "}
+              Save
             </button>
           </form>
 
