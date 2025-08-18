@@ -1,24 +1,21 @@
-
-
 function List({ value, index, todo, settodo }) {
-
-
   const Delete = (e) => {
     e.stopPropagation();
     let newdat = todo.filter((v, i) => i != index); //or if we dont want to use the implicit function then we can use return too
     settodo(newdat);
   };
 
-  const Done = () => {//for toggling the done 
-    let temparr=[...todo]
-    temparr[index].done=!temparr[index].done;
+  const Done = () => {
+    //for toggling the done
+    let temparr = [...todo];
+    temparr[index].done = !temparr[index].done;
 
-    settodo(temparr)
+    settodo(temparr);
     localStorage.setItem("task", JSON.stringify(temparr));
-
   };
 
-  const Up = (e) => {//logic for up
+  const Up = (e) => {
+    //logic for up
     e.stopPropagation();
     let newArr = [...todo];
     if (index >= 1) {
@@ -27,10 +24,11 @@ function List({ value, index, todo, settodo }) {
     }
   };
 
-  const Down = (e) => {//logic for task down
+  const Down = (e) => {
+    //logic for task down
     e.stopPropagation();
     let newArr = [...todo];
-    
+
     if (index < todo.length - 1) {
       [newArr[index], newArr[index + 1]] = [newArr[index + 1], newArr[index]];
       settodo(newArr);
@@ -38,32 +36,49 @@ function List({ value, index, todo, settodo }) {
   };
 
   return (
-    <li
-      className={`bg-amber-100 relative w-280 h-15 mb-3 p-3 cursor-pointer rounded-xl ${
-        todo[index].done ? "line-through bg-green-100" : ""
-      } `}
-      onClick={Done}
-    >
-      <span className="absolute left-2 ">{index + 1}. </span>
-      {value}
-      <span
-        className="absolute right-20 top-0  p-3 cursor-pointer bg-green-500 rounded-2xl"
-        onClick={Up}
-      >
-        &uarr;
-      </span>
-      <span
-        className="absolute right-32 top-0 p-3 cursor-pointer bg-amber-600 rounded-2xl"
-        onClick={Down}
-      >
-        &darr;
-      </span>
-      <span
-        onClick={Delete}
-        className=" absolute right-0 cursor-pointer p-3 top-0   h-15  w-20 rounded-xl bg-red-700 text-white"
-      >
-        &times;
-      </span>
+    <li>
+      <div className="flex p-3">
+        <div
+          className={`p-3 text-2xl w-full bg-amber-50 rounded-xl lg:flex justify-between ${
+            todo[index].done
+              ? " bg-green-200 rounded-xl lg: justify-between"
+              : ""
+          }`}
+          onClick={Done}
+        >
+          <span
+            className={` text-3xl ${
+
+              todo[index].done
+                ? "line-through rounded-xl lg:line-through justify-between"
+                : ""}` 
+            }
+          >
+            {value}
+          </span>
+
+          <div className="flex">
+            <span
+              className="cursor-pointer bg-green-700 flex-1 rounded-xl text-center text-3xl p-2 text-white lg:text-4xl lg:p-3 "
+              onClick={Up}
+            >
+              &uarr;
+            </span>
+            <span
+              className="cursor-pointer bg-yellow-800 flex-1 text-white rounded-xl text-center text-3xl p-2 lg:text-4xl lg:p-3"
+              onClick={Down}
+            >
+              &darr;
+            </span>
+            <span
+              onClick={Delete}
+              className=" cursor-pointer flex-1 bg-red-700 text-white rounded-xl text-center text-3xl p-2 lg:text-4xl lg:p-3"
+            >
+              &times;
+            </span>
+          </div>
+        </div>
+      </div>
     </li>
   );
 }

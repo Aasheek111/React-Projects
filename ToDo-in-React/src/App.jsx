@@ -6,21 +6,23 @@ function App() {
   const [loaded, setLoaded] = useState(false);
 
   const Add = (e) => {
-    let finaltodo = e.target.tasks.value;
-    let taskexist=todo.some((t)=>{
-      if(t.task.includes(finaltodo)){
-        return true;
-      }
+    let finaltodo = e.target.tasks.value.trim();
 
-    })
-
-    if(!finaltodo){
-      alert("Kuch to daldey")
+    if (!finaltodo) {
+      alert("Kuch to daldey");
+      return;
     }
-    else if (taskexist) {
+
+    let taskexist = todo.some(
+      (
+        t //this is the implicit function we can use {} explicit with return too
+      ) => t.task.toLowerCase() === finaltodo.toLowerCase()
+    );
+
+    if (taskexist) {
       alert("Pailai xa ta tyi herr na");
     } else {
-      let final = [...todo, {task:finaltodo, done: false }]
+      let final = [...todo, { task: finaltodo, done: false }];
       settodo(final);
       e.target.reset();
     }
@@ -41,10 +43,18 @@ function App() {
 
   useEffect(() => {
     try {
-      let todo = localStorage.getItem("task");
-      if (todo) settodo(JSON.parse(todo));
+      let saved = localStorage.getItem("task");
+      if (saved) {
+        let parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          settodo(parsed);
+        } else {
+          settodo([]);
+        }
+      }
     } catch (er) {
       console.log("Error", er);
+      settodo([]);
     } finally {
       setLoaded(true);
     }
@@ -58,37 +68,34 @@ function App() {
 
   return (
     <>
-    <link rel="shortcut icon" href="../../public/logo.png" type="image/x-icon" />
-      <div className="bg-gray-700 min-h-screen flex justify-center">
-          <div className=" rounded-2xl h-auto m-auto w-300 bg-blue-300 border-white ">
-            <div className="flex justify-center p-10">
-
-          <img src="../../public/logo.png" alt="" className="h-15" />
-          <h1 className="text-center  text-4xl text-red-900 font-bold p-3">
-            
-            TODO LIST
-          </h1>
-            </div>
+      <div className="bg-gray-700 min-h-screen flex">
+        <div className="bg-blue-300 m-5 w-full rounded-2xl p-5 lg:m-25">
+          <div className="flex justify-center flex-col items-center gap-2">
+            <img src="../../public/logo.png" alt="" className="h-15 w-15 lg:h-20 lg:w-20 " />
+            <h1 className="text-3xl lg:text-4xl font-bold p-3">
+              TODO LIST
+            </h1>
+          </div>
 
           <form
             action=""
             onSubmit={Add}
-            className=" flex flex-wrap  m-2 gap-2.5"
+            className=""
           >
             <input
               type="text"
               name="tasks"
               placeholder="Enter the task"
-              className=" ml-6  task border bg-white outline-none border-none rounded-2xl placeholder:text-black w-230 h-13 p-3 "
+              className="bg-white rounded-[0.4rem] w-[70%] h-14 text-xl p-3 outline-none border-none"
             />
 
-            <button className="w-45 border rounded-2xl bg-blue-950 cursor-pointer border-none text-white">
+            <button className="bg-blue-900 text-white w-[30%] h-15 rounded-2xl cursor-pointer">
               Save
             </button>
           </form>
 
-          <div className="outerdiv text-center">
-            <ul className="text-3xl p-7">{list}</ul>
+          <div className="">
+            <ul className="">{list}</ul>
           </div>
         </div>
       </div>
