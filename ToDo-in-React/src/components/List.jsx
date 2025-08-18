@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 function List({ value, index, todo, settodo }) {
+
   const [done, todone] = useState(false);
 
   const Delete = (e) => {
@@ -10,6 +11,7 @@ function List({ value, index, todo, settodo }) {
   };
 
   const Done = () => {
+
     todone(!done);
   };
 
@@ -33,7 +35,7 @@ function List({ value, index, todo, settodo }) {
   };
   return (
     <li
-      className={`bg-amber-100 relative w-280 h-15 mb-3 p-3 rounded-xl ${
+      className={`bg-amber-100 relative w-280 h-15 mb-3 p-3 cursor-pointer rounded-xl ${
         done ? "line-through bg-green-100" : ""
       } `}
       onClick={Done}

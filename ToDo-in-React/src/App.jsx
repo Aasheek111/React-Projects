@@ -5,13 +5,12 @@ function App() {
   const [todo, settodo] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-
   const Add = (e) => {
     let finaltodo = e.target.tasks.value;
     if (todo.includes(finaltodo)) {
       alert("Task already exists");
     } else {
-      let final = [...todo, finaltodo];
+      let final = [...todo, finaltodo]; //we also can do let final=todo.concat(finaltodo) ... is a spread operator
       settodo(final);
       e.target.reset();
     }
@@ -31,49 +30,56 @@ function App() {
   });
 
   useEffect(() => {
-    try{
+    try {
       let todo = localStorage.getItem("task");
       if (todo) settodo(JSON.parse(todo));
-    }
-    catch(er){
-console.log("Error",er);
-    }
-    finally{
-      setLoaded(true)
+    } catch (er) {
+      console.log("Error", er);
+    } finally {
+      setLoaded(true);
     }
   }, []);
 
   useEffect(() => {
-
-    if(loaded){
-
+    if (loaded) {
       localStorage.setItem("task", JSON.stringify(todo));
     }
-
-  }, [todo,loaded]);
+  }, [todo, loaded]);
 
   return (
     <>
-      <div className=" rounded-2xl h-auto m-auto w-300 bg-blue-300 mt-15">
-        <h1 className="text-center text-4xl text-red-900 font-bold p-3">
-          TODO LIST
-        </h1>
+    <link rel="shortcut icon" href="../../public/logo.png" type="image/x-icon" />
+      <div className="bg-gray-700 min-h-screen flex justify-center">
+          <div className=" rounded-2xl h-auto m-auto w-300 bg-blue-300 border-white ">
+            <div className="flex justify-center p-10">
 
-        <form action="" onSubmit={Add} className=" flex flex-wrap  m-2 gap-2.5">
-          <input
-            type="text"
-            name="tasks"
-            placeholder="Enter the task"
-            className=" ml-6  task border  bg-emerald-100 outline-none border-none rounded-2xl placeholder:text-black w-230 h-13 p-3 "
-          />
+          <img src="../../public/logo.png" alt="" className="h-15" />
+          <h1 className="text-center  text-4xl text-red-900 font-bold p-3">
+            
+            TODO LIST
+          </h1>
+            </div>
 
-          <button className="w-45 border rounded-2xl bg-blue-950 cursor-pointer  text-white">
-            Save{" "}
-          </button>
-        </form>
+          <form
+            action=""
+            onSubmit={Add}
+            className=" flex flex-wrap  m-2 gap-2.5"
+          >
+            <input
+              type="text"
+              name="tasks"
+              placeholder="Enter the task"
+              className=" ml-6  task border bg-white outline-none border-none rounded-2xl placeholder:text-black w-230 h-13 p-3 "
+            />
 
-        <div className="outerdiv text-center">
-          <ul className="text-3xl p-7">{list}</ul>
+            <button className="w-45 border rounded-2xl bg-blue-950 cursor-pointer border-none text-white">
+              Save{" "}
+            </button>
+          </form>
+
+          <div className="outerdiv text-center">
+            <ul className="text-3xl p-7">{list}</ul>
+          </div>
         </div>
       </div>
     </>
