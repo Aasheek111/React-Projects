@@ -71,7 +71,7 @@ function App() {
       <div className="bg-gray-700 min-h-screen flex">
         <div className="bg-blue-300 m-5 w-full rounded-2xl p-5 lg:m-25">
           <div className="flex justify-center flex-col items-center gap-2">
-            <img src="../../public/logo.png" alt="" className="h-15 w-15 lg:h-20 lg:w-20 " />
+            <img src="/logo.png" alt="" className="h-15 w-15 lg:h-20 lg:w-20 " />
             <h1 className="text-3xl lg:text-4xl font-bold p-3">
               TODO LIST
             </h1>
