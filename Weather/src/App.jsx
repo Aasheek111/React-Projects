@@ -17,7 +17,7 @@ const [country,setcountry]=useState("pokhara")
   };
   getWeather();
   return (
-    <div className="  bg-[url(./clean.jpg)] bg-no-repeat bg-cover flex flex-col gap-9 justify-center items-center  text-black w-full min-h-screen">
+    <div className="  bg-[url(/clean.jpg)] bg-no-repeat bg-cover flex flex-col gap-9 justify-center items-center  text-black w-full min-h-screen">
       <div className="text-4xl lg:text-6xl">WEATHER</div>
       <div className="bg-blue-500 backdrop-blur-xl p-10 rounded-2xl flex lg:p-15">
         <input
