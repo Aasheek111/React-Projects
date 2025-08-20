@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 function App() {
+const [country,setcountry]=useState("pokhara")
   let getWeather = async () => {
     const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -35,7 +36,7 @@ function App() {
       </div>
       <div className="data">
 
-City: <span>{data}</span>
+City: <span>{country}</span>
 </div>
     </div>
   );
