@@ -16,7 +16,7 @@ const About = () => {
           <div className="order-1 lg:order-2">
             <h3 className="text-xl md:text-2xl font-semibold mb-4 text-orange-600">Our Story</h3>
             <p className="text-gray-600 mb-4 text-sm md:text-base leading-relaxed">
-              Since 1995, RadhaKrishna Restaurant has been serving authentic Indian cuisine 
+              Since 1995, Our RadhaKrishna Restaurant has been serving authentic Indian cuisine 
               with devotion and love. Our recipes are passed down through generations, 
               ensuring every dish carries the true essence of Indian flavors.
             </p>
