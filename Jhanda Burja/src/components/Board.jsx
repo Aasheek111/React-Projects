@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+import "../App.css";
 
 function board() {
   const total = [
@@ -68,7 +69,7 @@ function board() {
           />
         )}
       </div>
-      <div className=" bg-[url(images/bg.jpg)] h-[calc(100vh-80px)]">
+      <div className="bg h-[calc(100vh-80px)]">
         <div className="dice">
           <div className="flex p-5">
             <div className="grid grid-cols-3 gap-4 items-center m-auto  justify-center  ">
@@ -83,7 +84,7 @@ function board() {
             </div>
           </div>
         </div>
-        
+
 
         <div className="roll text-white flex justify-center ">
           <button
