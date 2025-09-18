@@ -20,32 +20,25 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
-  // ✅ Chat Feature
   socket.on("chat", ({ user, message }) => {
     console.log("Message:", message);
     io.emit("chat", { user, message });
   });
 
-  // ✅ WebRTC Signaling
+
+
   socket.on("offer", (data) => {
-    console.log("Forwarding offer from", socket.id, "to", data.to);
-    socket.to(data.to).emit("offer", { sdp: data.sdp, from: socket.id });
+    socket.broadcast.emit("offer", data); // send offer to other user
   });
 
   socket.on("answer", (data) => {
-    console.log("Forwarding answer from", socket.id, "to", data.to);
-    socket.to(data.to).emit("answer", { sdp: data.sdp, from: socket.id });
+    socket.broadcast.emit("answer", data); // send answer to other user
   });
 
   socket.on("ice-candidate", (data) => {
-    console.log("Forwarding candidate from", socket.id, "to", data.to);
-    socket.to(data.to).emit("ice-candidate", { candidate: data.candidate, from: socket.id });
+    socket.broadcast.emit("ice-candidate", data); // send ICE candidates
   });
-
-  // ✅ Disconnect
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-  });
+  
 });
 
 server.listen(3000, () => {
