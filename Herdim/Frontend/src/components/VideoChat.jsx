@@ -3,6 +3,7 @@ import socket from "../Socket/socket";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useUser } from "./UserContext";
+import { createOffer } from "../services/webrtc";
 
 function VideoChat() {
   const { room } = useUser();
@@ -10,11 +11,26 @@ function VideoChat() {
   const remoteVideo = useRef(null);
   const pc = useRef(null); //webrtc pair connection ko lagi
 
-  const [users, setUsers] = useState([]); //aafno id
-  const [myId, setMyId] = useState(null);
-  const [targetId, setTargetId] = useState(null); // opposite ko id
 
-  useEffect(() => {
+
+async function playVideoFromCamera() {
+  try {
+    const constraints = { video: true, audio: true };
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    if (localVideo.current) {
+      localVideo.current.srcObject = stream;
+      // add tracks to the peer connection so remote can see
+      stream.getTracks().forEach(track => pc.current.addTrack(track, stream));
+    }
+  } catch (error) {
+    console.error("Error opening video camera.", error);
+  }
+}
+
+
+useEffect(() => {
+    playVideoFromCamera();
+    
     pc.current = new RTCPeerConnection();
 
     pc.current.ontrack = (event) => {
@@ -25,7 +41,8 @@ function VideoChat() {
     pc.current.onicecandidate = (event) => {
       //this fires when browser finds new possible route or new icecandidate
       if (event.candidate) {
-        socket.emit("ice-candidate", event.candidate); //we send the object when ice-candidate through the sockey
+        socket.emit("ice-candidate", event.candidate); //we send the object when ice-candidate through the socket
+        console.log(event.candidate)
       }
     };
 
@@ -33,16 +50,6 @@ function VideoChat() {
       socket.off("startcall");
     };
   }, []);
-
-  const startCall = async () => {
-    try {
-      const constraints = { video: true, audio: true };
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      localVideo.current.srcObject = stream;
-    } catch (error) {
-      console.error("Error opening video camera.", error);
-    }
-  };
 
   return (
     <div className="flex w-full flex-col">
@@ -55,16 +62,10 @@ function VideoChat() {
         </div>
       </div>
       <div className="flex justify-around">
-        <button
-          onClick={startCall}
-          className=" p-1 w-25 m-1 bg-green-800 text-white rounded-xl"
-        >
+        <button className=" p-1 w-25 m-1 bg-green-800 text-white rounded-xl">
           Call
         </button>
-        <button
-          
-          className=" p-1 w-30 m-1 bg-orange-700 text-white  rounded-xl text-whi"
-        >
+        <button className=" p-1 w-30 m-1 bg-orange-700 text-white  rounded-xl ">
           Share Screen
         </button>
       </div>

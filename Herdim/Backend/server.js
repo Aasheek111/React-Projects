@@ -25,20 +25,10 @@ io.on("connection", (socket) => {
     io.emit("chat", { user, message });
   });
 
-
-
-  socket.on("offer", (data) => {
-    socket.broadcast.emit("offer", data); // send offer to other user
+  socket.on("joined", (user) => {
+    console.log(`${user} Joined the Room`);
+    io.emit("joined", user);
   });
-
-  socket.on("answer", (data) => {
-    socket.broadcast.emit("answer", data); // send answer to other user
-  });
-
-  socket.on("ice-candidate", (data) => {
-    socket.broadcast.emit("ice-candidate", data); // send ICE candidates
-  });
-  
 });
 
 server.listen(3000, () => {

@@ -1,33 +1,25 @@
-import React from 'react'
-import { useState } from 'react';
-import { useContext } from 'react';
-import { createContext } from 'react';
+import React from "react";
+import { useState } from "react";
+import { useContext } from "react";
+import { createContext } from "react";
 
+const MyContext = createContext();
 
-const MyContext=createContext();
+export function UserProvider(prop) {
+  const [user, setUser] = useState("admin");
+  const [room, setRoom] = useState("123");
+  const [islogin, setIslogin] = useState(true);
 
-export function UserProvider(prop){
-
-const [user,setUser]=useState("admin")
-const [room,setRoom]=useState("123")
-const [islogin,setIslogin]=useState(true);
-
-const val={
+  const val = {
     user,
     setUser,
     islogin,
     setIslogin,
     room,
-    setRoom
-    
+    setRoom,
+  };
+  return <MyContext.Provider value={val}>{prop.children}</MyContext.Provider>;
 }
-    return(
-        <MyContext.Provider value={val}>
-            {prop.children}
-        </MyContext.Provider>
-    )
+export function useUser() {
+  return useContext(MyContext);
 }
-export function useUser(){
-    return useContext(MyContext)
-}
-
