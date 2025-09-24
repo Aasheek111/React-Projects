@@ -29,6 +29,18 @@ io.on("connection", (socket) => {
     console.log(`${user} Joined the Room`);
     io.emit("joined", user);
   });
+
+  socket.on("candidate", (candidate) => {
+    socket.broadcast.emit("candidate", candidate);
+  });
+
+  socket.on("offer", (offer) => {
+    socket.broadcast.emit("offer", offer);
+  });
+
+  socket.on("answer", (answer) => {
+    socket.broadcast.emit("answer", answer);
+  });
 });
 
 server.listen(3000, () => {
