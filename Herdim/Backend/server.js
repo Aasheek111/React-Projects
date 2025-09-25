@@ -7,7 +7,7 @@ const { Server } = require("socket.io");
 const server = new createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",//https://herdim.vercel.app
+    origin: "https://herdim.vercel.app ",//https://herdim.vercel.app         http://localhost:5173
     methods: ["GET", "POST"],
   },
 });
