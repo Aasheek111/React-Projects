@@ -3,9 +3,19 @@ import socket from "../Socket/socket";
 
 export default function peerService() {
   
-  const pc = new RTCPeerConnection({
-    iceServers: [{ urls: "stun:stun1.l.google.com:19302" }],
-  });
+ const pc = new RTCPeerConnection({
+  iceServers: [
+    { urls: "stun:stun1.l.google.com:19302" }, 
+    {
+      urls: "turn:relay1.expressturn.com:3480",
+      username: "000000002074120375",        
+      credential: "jYlmwjdghSd+97J4JRTbvCiRSq8="   
+    }
+  ],
+});
+
+
+
   //  Send ICE candidates to remote peer
   pc.onicecandidate = (event) => {
     if (event.candidate) {

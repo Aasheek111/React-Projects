@@ -9,12 +9,11 @@ function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
-  const isJoined=useRef(false);
+  const isJoined = useRef(false);
   useEffect(() => {
-
-    if(!isJoined.current){
-        socket.emit("joined", user.name);
-        isJoined.current=true;
+    if (!isJoined.current) {
+      socket.emit("joined", user.name);
+      isJoined.current = true;
     }
 
     socket.on("chat", ({ user, message }) => {
@@ -22,8 +21,8 @@ function Chat() {
     });
 
     socket.on("joined", (person) => {
-    //   users.push(person);
-    //   setUsers((prev) => [...prev, person]);
+      //   users.push(person);
+      //   setUsers((prev) => [...prev, person]);
       setMessages((prev) => [
         ...prev,
         { type: "joined", person, message: "Joined the room" },
@@ -45,16 +44,11 @@ function Chat() {
 
   return (
     <div>
-      <div className="flex h-screen w-full">
-        <div className=" flex-3">
-          <video />
-        </div>
-
-        <div className="flex flex-col felx-1">
-          <div className="text-center text-orange-700">CHAT:</div>
-
-          {/* this is chatbox */}
-          <div className="chat flex-1 bg-blue-200 p-3 rounded-2xl flex flex-col gap-1">
+      
+        <div className="flex flex-col felx-1 h-screen bg-gray-800 text-white">
+          {/* this is chatbox after this  */}
+          <div className="chat flex-1  p-3 rounded-2xl flex flex-col gap-1">
+            <div className="text-center text-orange-700 font-bold">CHAT:</div>
             {messages.map((mes, ind) => {
               // map must return jsx but i didnot so i got error here
               if (mes.type == "joined") {
@@ -78,12 +72,12 @@ function Chat() {
             <form action="" className="flex">
               <input
                 type="text"
-                className="border-1 p-1 m-2  w-full rounded"
+                className="border-1 p-2 m-2  w-full rounded-xl outline-none"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
               <button
-                className="p-1 m-2 border-1 rounded "
+                className="p-2 m-2 border-1 rounded-xl "
                 onClick={handelSend}
               >
                 Send
@@ -92,7 +86,7 @@ function Chat() {
           </div>
         </div>
       </div>
-    </div>
+
   );
 }
 
