@@ -54,21 +54,17 @@ function VideoChat() {
     console.log("CLICKEDD");
   };
 
-  const shareScreen = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-        audio: true,
-      });
-      localVideo.current.srcObject = stream;
-      handleLocalStream(stream);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const shareScreen = async () => {
+  const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+  const videoTrack = stream.getVideoTracks()[0];
+  const sender = pc.getSenders().find(s => s.track.kind === 'video');
+  sender.replaceTrack(videoTrack);
+  localVideo.current.srcObject = stream;
+};
+
 
   return (
-    <div className="flex flex-col w-full h-screen bg-gray-800 p-2 md:p-5">
+    <div className="flex flex-col w-full min-h-[66vh] bg-gray-800 p-2 md:p-5">
       {/* Video Container */}
       <div className="relative flex-1 bg-black rounded-xl overflow-hidden flex items-center justify-center">
         <video
@@ -81,7 +77,7 @@ function VideoChat() {
             ref={localVideo}
             autoPlay
             muted
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transform -scale-x-100"
           />
         </div>
       </div>
