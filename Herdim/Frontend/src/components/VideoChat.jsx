@@ -60,32 +60,45 @@ function VideoChat() {
     await createOffer();
     console.log("CLICKEDD");
   };
+const shareScreen = async () => {
+  try {
+    const screenStream = await navigator.mediaDevices.getDisplayMedia({
+      video: true,
+      audio: true, // this gives you a screen audio track
+    });
 
-  const shareScreen = async () => {
-    try {
-      const screenStream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-        audio: true,
-      });
-      const screenTrack = screenStream.getVideoTracks()[0];
-      const sender = pc
-        .getSenders()
-        .find((s) => s.track && s.track.kind === "video");
-      if (sender) {
-        await sender.replaceTrack(screenTrack);
-      } else {
-        console.error("Error in screen sharing");
-        return;
-      }
-
-      //Show the screen locally
-      localVideo.current.srcObject = screenStream;
-      setisShare(!isShare);
-
-    } catch (err) {
-      console.error("Error sharing screen:", err);
+    // Replace video track
+    const screenVideoTrack = screenStream.getVideoTracks()[0];
+    const videoSender = pc.getSenders().find(
+      (s) => s.track && s.track.kind === "video"
+    );
+    if (videoSender) {
+      await videoSender.replaceTrack(screenVideoTrack);
     }
-  };
+
+    // Replace or add audio track
+    const screenAudioTrack = screenStream.getAudioTracks()[0];
+    if (screenAudioTrack) {
+      let audioSender = pc.getSenders().find(
+        (s) => s.track && s.track.kind === "audio"
+      );
+
+      if (audioSender) {
+        await audioSender.replaceTrack(screenAudioTrack);
+      } else {
+        pc.addTrack(screenAudioTrack, screenStream); // add if no audio sender exists
+      }
+    }
+
+    // Show screen locally
+    localVideo.current.srcObject = screenStream;
+    setisShare(!isShare);
+
+  } catch (err) {
+    console.error("Error sharing screen:", err);
+  }
+};
+
 
   return (
     <div className="flex flex-col w-full min-h-[66vh] bg-gray-800 p-2 md:p-5">
