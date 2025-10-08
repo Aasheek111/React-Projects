@@ -65,9 +65,9 @@ function VideoChat() {
     try {
       const screenStream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
+        audio: true,
       });
       const screenTrack = screenStream.getVideoTracks()[0];
-
       const sender = pc
         .getSenders()
         .find((s) => s.track && s.track.kind === "video");
@@ -80,15 +80,8 @@ function VideoChat() {
 
       //Show the screen locally
       localVideo.current.srcObject = screenStream;
+      setisShare(!isShare);
 
-      screenTrack.onended = async () => {
-        const camStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        const camTrack = camStream.getVideoTracks()[0];
-        await sender.replaceTrack(camTrack);
-        localVideo.current.srcObject = camStream;
-      };
     } catch (err) {
       console.error("Error sharing screen:", err);
     }
@@ -101,9 +94,11 @@ function VideoChat() {
         <video
           ref={remoteVideo}
           autoPlay
+          controls
           className="w-full h-full object-cover"
         />
-        <div className="absolute bottom-2 right-2 w-24 h-24 md:w-40 md:h-40 rounded-lg overflow-hidden border-2 border-white shadow-lg">
+
+        <div className="absolute top-2 right-2 w-24 h-24 md:w-40 md:h-40 rounded-lg overflow-hidden border-2 border-white shadow-lg">
           <video
             ref={localVideo}
             autoPlay
@@ -125,7 +120,7 @@ function VideoChat() {
           className="px-4 py-2 bg-orange-700 hover:bg-orange-600 text-white font-semibold rounded-xl"
           onClick={shareScreen}
         >
-          Share Screen
+          {isShare ? "Share Screen" : "Stop Sharing"}
         </button>
       </div>
     </div>
