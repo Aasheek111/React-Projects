@@ -6,7 +6,7 @@ import peerService from "../services/peerService";
 import { useState } from "react";
 
 const peer = peerService();
-const { 
+const {
   createOffer,
   handleOffer,
   handleAnswer,
@@ -15,9 +15,8 @@ const {
   onRemoteStream,
   getSenders,
   getLocalStream,
-  pc
+  pc,
 } = peer;
-
 
 function VideoChat() {
   const { room } = useUser();
@@ -53,7 +52,7 @@ function VideoChat() {
     return () => {
       socket.off("offer");
       socket.off("answer");
-      socket.off("candidate");//cleanup
+      socket.off("candidate"); //cleanup
     };
   }, []);
 
@@ -62,39 +61,38 @@ function VideoChat() {
     console.log("CLICKEDD");
   };
 
+  const shareScreen = async () => {
+    try {
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+      });
+      const screenTrack = screenStream.getVideoTracks()[0];
 
+      const sender = pc
+        .getSenders()
+        .find((s) => s.track && s.track.kind === "video");
+      if (sender) {
+        await sender.replaceTrack(screenTrack);
+      } else {
+        console.error("Error in screen sharing");
+        return;
+      }
 
- const shareScreen = async () => {
-  try {
-    const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-    const screenTrack = screenStream.getVideoTracks()[0];
+      //Show the screen locally
+      localVideo.current.srcObject = screenStream;
 
-
-    const sender = pc.getSenders().find(s => s.track && s.track.kind === "video");
-    if (sender) {
-      await sender.replaceTrack(screenTrack);
-
-    } else {
-      console.error("Error in screen sharing");
-      return;
+      screenTrack.onended = async () => {
+        const camStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        const camTrack = camStream.getVideoTracks()[0];
+        await sender.replaceTrack(camTrack);
+        localVideo.current.srcObject = camStream;
+      };
+    } catch (err) {
+      console.error("Error sharing screen:", err);
     }
-
-//Show the screen locally
-    localVideo.current.srcObject = screenStream;
-
-
-    screenTrack.onended = async () => {
-      const camStream = await navigator.mediaDevices.getUserMedia({ video: true });
-      const camTrack = camStream.getVideoTracks()[0];
-      await sender.replaceTrack(camTrack);
-      localVideo.current.srcObject = camStream;
-    };
-  } catch (err) {
-    console.error("Error sharing screen:", err);
-  }
-};
-
-
+  };
 
   return (
     <div className="flex flex-col w-full min-h-[66vh] bg-gray-800 p-2 md:p-5">
