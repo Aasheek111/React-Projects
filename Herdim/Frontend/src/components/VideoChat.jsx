@@ -3,20 +3,28 @@ import socket from "../Socket/socket";
 import React, { useEffect } from "react";
 import { useUser } from "./UserContext";
 import peerService from "../services/peerService";
+import { useState } from "react";
 
-const {
+const peer = peerService();
+const { 
   createOffer,
   handleOffer,
   handleAnswer,
   handleCandidate,
   handleLocalStream,
   onRemoteStream,
-} = peerService();
+  getSenders,
+  getLocalStream,
+  pc
+} = peer;
+
 
 function VideoChat() {
   const { room } = useUser();
   const localVideo = useRef(null);
   const remoteVideo = useRef(null);
+  const screenVideoRef = useRef(null);
+  const [isShare, setisShare] = useState(false);
 
   useEffect(() => {
     navigator.mediaDevices
@@ -45,7 +53,7 @@ function VideoChat() {
     return () => {
       socket.off("offer");
       socket.off("answer");
-      socket.off("candidate");
+      socket.off("candidate");//cleanup
     };
   }, []);
 
@@ -54,13 +62,38 @@ function VideoChat() {
     console.log("CLICKEDD");
   };
 
-const shareScreen = async () => {
-  const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-  const videoTrack = stream.getVideoTracks()[0];
-  const sender = pc.getSenders().find(s => s.track.kind === 'video');
-  sender.replaceTrack(videoTrack);
-  localVideo.current.srcObject = stream;
+
+
+ const shareScreen = async () => {
+  try {
+    const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+    const screenTrack = screenStream.getVideoTracks()[0];
+
+
+    const sender = pc.getSenders().find(s => s.track && s.track.kind === "video");
+    if (sender) {
+      await sender.replaceTrack(screenTrack);
+
+    } else {
+      console.error("Error in screen sharing");
+      return;
+    }
+
+//Show the screen locally
+    localVideo.current.srcObject = screenStream;
+
+
+    screenTrack.onended = async () => {
+      const camStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const camTrack = camStream.getVideoTracks()[0];
+      await sender.replaceTrack(camTrack);
+      localVideo.current.srcObject = camStream;
+    };
+  } catch (err) {
+    console.error("Error sharing screen:", err);
+  }
 };
+
 
 
   return (

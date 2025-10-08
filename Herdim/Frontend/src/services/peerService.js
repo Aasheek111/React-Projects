@@ -2,19 +2,16 @@
 import socket from "../Socket/socket";
 
 export default function peerService() {
-  
- const pc = new RTCPeerConnection({
-  iceServers: [
-    { urls: "stun:stun1.l.google.com:19302" }, 
-    {
-      urls: "turn:relay1.expressturn.com:3480",
-      username: "000000002074120375",        
-      credential: "jYlmwjdghSd+97J4JRTbvCiRSq8="   
-    }
-  ],
-});
-
-
+  const pc = new RTCPeerConnection({
+    iceServers: [
+      { urls: "stun:stun1.l.google.com:19302" },
+      {
+        urls: "turn:relay1.expressturn.com:3480",
+        username: "000000002074120375",
+        credential: "jYlmwjdghSd+97J4JRTbvCiRSq8=",
+      },
+    ],
+  });
 
   //  Send ICE candidates to remote peer
   pc.onicecandidate = (event) => {
@@ -23,7 +20,9 @@ export default function peerService() {
     }
   };
 
-  //  Handle incoming offer
+  // lets understand the flow hai ta if someone sends you an offer then you have to take that offer and set the
+  // remote description and then create an answer and set the local description and then send the answer to the
+  // other peer
   async function handleOffer(offer) {
     await pc.setRemoteDescription(new RTCSessionDescription(offer));
     const answer = await pc.createAnswer();
@@ -32,7 +31,7 @@ export default function peerService() {
     return answer;
   }
 
-  //  Handle incoming answer
+  //the answer we send to the other peer we take that and again set remote description
   async function handleAnswer(answer) {
     await pc.setRemoteDescription(new RTCSessionDescription(answer));
   }
@@ -46,16 +45,16 @@ export default function peerService() {
     }
   }
 
-  //  Create offer (Peer A)
+  //  when we dial we make a offer and send it to the other peer
   async function createOffer() {
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
     socket.emit("offer", offer);
-    console.log("OFFER Is",offer)
+    console.log("OFFER Is", offer);
     return offer;
   }
 
-  //  Attach local stream (camera/mic)
+  //  this is used to attach local stream camera mic haru
   function handleLocalStream(stream) {
     stream.getTracks().forEach((track) => pc.addTrack(track, stream));
   }
@@ -67,6 +66,12 @@ export default function peerService() {
     };
   }
 
+  function getSenders() {
+    console.log("Senders", pc.getSenders());
+    return pc.getSenders();
+    
+  }
+
   return {
     pc,
     createOffer,
@@ -75,5 +80,6 @@ export default function peerService() {
     handleCandidate,
     handleLocalStream,
     onRemoteStream,
+    getSenders,
   };
 }

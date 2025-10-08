@@ -12,7 +12,7 @@ function Chat() {
   const isJoined = useRef(false);
   const chatRef = useRef(null);
 
-  // Auto-scroll to bottom when new message comes
+//for auto scroll
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
@@ -20,7 +20,7 @@ function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    if (!isJoined.current) {
+    if (!isJoined.current) { 
       socket.emit("joined", user.name);
       isJoined.current = true;
     }
@@ -65,14 +65,14 @@ function Chat() {
             if (mes.type == "joined") {
               return (
                 <div key={ind}>
-                  <b className="text-red-800">{mes.person}</b>:{mes.message}
+                  <b className="text-green-400">{mes.person}</b>:{mes.message}
                 </div>
               );
             } else if (mes.type == "chat") {
               return (
                 <div key={ind}>
                   {" "}
-                  <b className="text-red-800">{user.name}</b>:{mes.message}
+                  <b className="text-blue-500">{user.name}</b>:{mes.message}
                 </div>
               );
             }

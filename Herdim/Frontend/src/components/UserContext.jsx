@@ -8,7 +8,7 @@ const MyContext = createContext();
 export function UserProvider(prop) {
   const [user, setUser] = useState("admin");
   const [room, setRoom] = useState("123");
-  const [islogin, setIslogin] = useState(false);
+  const [islogin, setIslogin] = useState(true);
 
   const val = {
     user,
