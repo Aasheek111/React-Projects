@@ -120,7 +120,7 @@ function VideoChat() {
           className="px-4 py-2 bg-orange-700 hover:bg-orange-600 text-white font-semibold rounded-xl"
           onClick={shareScreen}
         >
-          {isShare ? "Share Screen" : "Stop Sharing"}
+          {isShare ? "Stop Sharing" : "Start Sharing"}
         </button>
       </div>
     </div>
