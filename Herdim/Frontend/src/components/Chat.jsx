@@ -12,7 +12,7 @@ function Chat() {
   const isJoined = useRef(false);
   const chatRef = useRef(null);
 
-//for auto scroll
+  //for auto scroll
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
@@ -20,7 +20,7 @@ function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    if (!isJoined.current) { 
+    if (!isJoined.current) {
       socket.emit("joined", user.name);
       isJoined.current = true;
     }
@@ -54,12 +54,12 @@ function Chat() {
   return (
     <div>
       <div className="flex flex-col  bg-gray-800 text-white h-[34vh] sm:h-[100vh]">
-        {/* this is chatbox after this  */}
+
         <div
           className="chat flex-1  p-3 rounded-2xl flex flex-col gap-1 overflow-y-auto "
           ref={chatRef}
         >
-          <div className="text-center text-orange-700 font-bold">CHAT:</div>
+          <div className="text-center text-orange-700 font-bold flex">CHAT:</div>
           {messages.map((mes, ind) => {
             // map must return jsx but i didnot so i got error here
             if (mes.type == "joined") {
@@ -69,12 +69,25 @@ function Chat() {
                 </div>
               );
             } else if (mes.type == "chat") {
-              return (
-                <div key={ind}>
-                  {" "}
-                  <b className="text-blue-500">{user.name}</b>:{mes.message}
-                </div>
-              );
+              if (mes.user.name == user.name) {
+                return (
+                  <div key={ind}>
+                    {" "}
+                    <b className="text-orange-600">
+                      {mes.user.name}
+                    </b>
+                    :{mes.message}
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={ind}>
+                    {" "}
+                    <b className="text-blue-400">{mes.user.name}</b>:
+                    {mes.message}
+                  </div>
+                );
+              }
             }
           })}
         </div>

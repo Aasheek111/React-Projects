@@ -64,19 +64,26 @@ const shareScreen = async () => {
   try {
     const screenStream = await navigator.mediaDevices.getDisplayMedia({
       video: true,
-      audio: true, // this gives you a screen audio track
+      audio: true, 
     });
+    //this is just simply getting the permission for screen share 
 
-    // Replace video track
-    const screenVideoTrack = screenStream.getVideoTracks()[0];
+    const screenVideoTrack = screenStream.getVideoTracks()[0];//our required video track is in [0] so we get video track from here
+
+//     [
+//   RTCRtpSender { track: cameraVideoTrack, kind: "video" },
+//   RTCRtpSender { track: micAudioTrack, kind: "audio" }
+// ]
+//pc has many senders and it sends sth like this .. 
+//from there we take the video and replace it (amazing hai)
+
     const videoSender = pc.getSenders().find(
-      (s) => s.track && s.track.kind === "video"
+      (s) => s.track && s.track.kind === "video"//helps to find the person which is currently sending the data
     );
     if (videoSender) {
       await videoSender.replaceTrack(screenVideoTrack);
     }
 
-    // Replace or add audio track
     const screenAudioTrack = screenStream.getAudioTracks()[0];
     if (screenAudioTrack) {
       let audioSender = pc.getSenders().find(
@@ -86,11 +93,11 @@ const shareScreen = async () => {
       if (audioSender) {
         await audioSender.replaceTrack(screenAudioTrack);
       } else {
-        pc.addTrack(screenAudioTrack, screenStream); // add if no audio sender exists
+        pc.addTrack(screenAudioTrack, screenStream); 
       }
     }
 
-    // Show screen locally
+
     localVideo.current.srcObject = screenStream;
     setisShare(!isShare);
 

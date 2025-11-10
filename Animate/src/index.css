@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+
+
+  background: #000;
+}
+
+#box {
+  height: 200px;
+  width: 200px;
+  background: red;
+  border-radius: 10px;
+}
+
+#box2 {
+  height: 200px;
+  width: 200px;
+
+  border-radius: 10px;
+}
+
+#btn {
+  height: 2rem;
+  width: 5rem;
+  border-radius: 3px;
+  background-color: white;
+  border: none;
+  margin: 10px;
+}
+
+.text {
+  color: white;
+}
+/* .bg{
+  background: white;
+} */

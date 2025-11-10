@@ -6,8 +6,8 @@ import { createContext } from "react";
 const MyContext = createContext();
 
 export function UserProvider(prop) {
-  const [user, setUser] = useState("admin");
-  const [room, setRoom] = useState("123");
+  const [user, setUser] = useState("");
+  const [room, setRoom] = useState("");
   const [islogin, setIslogin] = useState(false);
 
   const val = {
