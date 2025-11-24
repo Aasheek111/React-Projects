@@ -65,7 +65,7 @@ function Chat() {
             if (mes.type == "joined") {
               return (
                 <div key={ind}>
-                  <b className="text-green-400">{mes.person}</b>:{mes.message}
+                  <b className="text-green-600">{mes.person}</b>:{mes.message}
                 </div>
               );
             } else if (mes.type == "chat") {
