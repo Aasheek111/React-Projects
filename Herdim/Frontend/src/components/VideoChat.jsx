@@ -108,7 +108,7 @@ const shareScreen = async () => {
 
 
   return (
-    <div className="flex flex-col w-full min-h-[66vh] bg-gray-800 p-2 md:p-5">
+    <div className="flex flex-col w-full min-h-[66vh] bg-neutral-200 p-2 md:p-5">
       {/* Video Container */}
       <div className="relative flex-1 bg-black rounded-xl overflow-hidden flex items-center justify-center">
         <video

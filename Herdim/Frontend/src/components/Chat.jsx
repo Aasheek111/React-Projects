@@ -53,13 +53,13 @@ function Chat() {
 
   return (
     <div>
-      <div className="flex flex-col  bg-gray-800 text-white h-[34vh] sm:h-[100vh]">
+      <div className="flex flex-col  bg-neutral-200 p-1  rounded-3xl text-black h-[34vh] sm:h-[100vh]">
 
         <div
-          className="chat flex-1  p-3 rounded-2xl flex flex-col gap-1 overflow-y-auto "
+          className="chat flex-1  rounded-2xl flex flex-col gap-1 overflow-y-auto "
           ref={chatRef}
         >
-          <div className="text-center text-orange-700 font-bold flex">CHAT:</div>
+          <div className="text-center text-white justify-center bg-blue-600  p-5 font-bold flex">CHAT:</div>
           {messages.map((mes, ind) => {
             // map must return jsx but i didnot so i got error here
             if (mes.type == "joined") {
