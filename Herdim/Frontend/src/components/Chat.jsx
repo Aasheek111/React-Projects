@@ -53,7 +53,7 @@ function Chat() {
 
   return (
     <div>
-      <div className="flex flex-col  bg-neutral-200 p-1  rounded-3xl text-black h-[34vh] sm:h-[100vh]">
+      <div className="flex flex-col  bg-neutral-200  shadow-xs shadow-neutral-500 p-2 m-2  rounded-3xl text-black h-[34vh] sm:h-[90vh]">
 
         <div
           className="chat flex-1  rounded-2xl flex flex-col gap-1 overflow-y-auto "
@@ -96,12 +96,13 @@ function Chat() {
           <form action="" className="flex">
             <input
               type="text"
-              className="border-1 p-2 m-2  w-full rounded-xl outline-none"
+              className="border-1 p-2 m-2 rounded-xl border-neutral-400  w-full  outline-none"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              placeholder="Enter message"
             />
             <button
-              className="p-2 m-2 border-1 rounded-xl "
+              className="p-2 m-2 border-1 rounded-xl  bg-blue-500 text-white"
               onClick={handelSend}
             >
               Send
