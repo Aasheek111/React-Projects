@@ -27,7 +27,7 @@ function Login() {
         id="form"
         onSubmit={handelSubmit}
       >
-        <h1 className="mb-7 text-4xl">Login</h1>
+        <h1 className="mb-7 text-4xl">Login Form</h1>
         Name:
         <input
           type="text"
