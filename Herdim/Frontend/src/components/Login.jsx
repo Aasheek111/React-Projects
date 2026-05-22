@@ -39,7 +39,7 @@ function Login() {
             setName(e.target.value);
           }}
         />
-        Room Name:
+        Room ID :
         <input
           type="text"
           name=""
