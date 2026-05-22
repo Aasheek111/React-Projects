@@ -20,14 +20,14 @@ function Login() {
   };
 
   return (
-    <div className="bg-neutral-200 h-screen w-full  flex justify-center font-mono text-black ">
+    <div className="bg-neutral-200 min-h-screen w-full  flex justify-center font-mono text-black ">
       <form
         action=""
         className="flex flex-col  bg-neutral-100 items-center m-20 p-15 rounded-2xl shadow-neutral-500 shadow-xs"
         id="form"
         onSubmit={handelSubmit}
       >
-        <h1 className="mb-7 text-4xl">Form</h1>
+        <h1 className="mb-7 text-4xl">Login</h1>
         Name:
         <input
           type="text"
